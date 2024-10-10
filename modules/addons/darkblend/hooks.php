@@ -66,7 +66,7 @@ HTML;
 }
 function admin_blend_change_theme($vars)
 {
-	if ($vars != 'blend') {
+	if ('blend' != $vars['template']) {
 		return;
 	}
 
