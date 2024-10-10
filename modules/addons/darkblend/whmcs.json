@@ -2,7 +2,7 @@
     "schema": "1.0",
     "type": "whmcs-addons",
     "name": "darkblend",
-    "version": "3.1.1",
+    "version": "3.2.0",
     "license": "free",
     "category": "utilites",
     "premium": "false",

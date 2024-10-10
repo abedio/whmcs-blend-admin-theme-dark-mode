@@ -1,0 +1,42 @@
+name: Build Release
+
+on:
+  push:
+    tags:
+      - "*"
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    name: Create Release
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Create a Release
+        run: gh release create ${{ github.ref_name }} --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+      
+  upload:
+    runs-on: ubuntu-latest
+    needs: release
+    permissions:
+      packages: write
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: ${{ github.event.repository.name }}
+
+      - name: Archive
+        run: zip -r ${{ github.event.repository.name }}-module.zip ./${{ github.event.repository.name }}/modules
+
+      - name: Upload
+        working-directory: ${{ github.event.repository.name }}
+        run: gh release upload ${{ github.ref_name }} ../${{ github.event.repository.name }}-module.zip
+        env:
+          GH_TOKEN: ${{ github.token }}
