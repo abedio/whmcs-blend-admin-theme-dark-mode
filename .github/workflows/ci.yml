@@ -29,14 +29,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: ${{ github.event.repository.name }}
 
       - name: Archive
-        run: zip -r ${{ github.event.repository.name }}-module.zip ./${{ github.event.repository.name }}/modules
+        run: zip -r ${{ github.event.repository.name }}-module.zip ./modules
 
       - name: Upload
-        working-directory: ${{ github.event.repository.name }}
-        run: gh release upload ${{ github.ref_name }} ../${{ github.event.repository.name }}-module.zip
+        run: gh release upload ${{ github.ref_name }} ./${{ github.event.repository.name }}-module.zip
         env:
           GH_TOKEN: ${{ github.token }}
